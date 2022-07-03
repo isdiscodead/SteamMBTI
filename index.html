@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나한테 딱 맞는 STEAM 게임은?</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+     <!-- style sheet link -->
+    <link rel="stylesheet" href="style.css?ver=2">
+</head>
+   
+<body class="container">
+    <article class="start">
+        <h1 class="mt-5 text-center">나랑 꼭 닮은 세렝게티 동물은?</h1>
+        <button class="btn btn-primary mt-5" onclick="start();">테스트 시작하기</button>
+    </article>
+
+    <article class="question" style="display: none;">
+        <div class="progress mt-5">
+            <div class="progress-bar" role="progressbar" style="width: calc(100/12*1%);"></div>
+        </div>
+        <h2 class="text-center mt-5" id="title">문제</h2> 
+        <input type="hidden" id="type" value="EI">
+        <button id="A" type="button" class="btn btn-primary mt-5">Primary</button>
+        <button id="B" type="button" class="btn btn-primary mt-5">Primary</button>
+    </article>
+
+    <article class="result"> 
+        <img id="img" class="rounded-circle mt-5" src="" alt="animal">
+        <h2 id="animal" class="text-center mt-5">동물 이름</h2>
+        <h3 id="explain" class="text-center mt-5">설명</h3>
+
+        <div class="share mt-3 addthis_inline_share_toolbox"></div>
+    </article>
+
+    <input type="hidden" id="EI" value="0">
+    <input type="hidden" id="SN" value="0">
+    <input type="hidden" id="TF" value="0">
+    <input type="hidden" id="JP" value="0">
+
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    <!-- jquery -->
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"></script>
+
+    <script>
+        var num = 1;
+        var q = {
+            1 : {"title" : "문제 1번", "type":"EI", "A":"E", "B":"I"},
+            2 : {"title" : "문제 2번", "type":"EI", "A":"E", "B":"I"},
+            3 : {"title" : "문제 3번", "type":"EI", "A":"E", "B":"I"},
+            4 : {"title" : "문제 4번", "type":"SN", "A":"S", "B":"N"},
+            5 : {"title" : "문제 5번", "type":"SN", "A":"S", "B":"N"},
+            6 : {"title" : "문제 6번", "type":"SN", "A":"S", "B":"N"},
+            7 : {"title" : "문제 7번", "type":"TF", "A":"T", "B":"F"},
+            8 : {"title" : "문제 8번", "type":"TF", "A":"T", "B":"F"},
+            9 : {"title" : "문제 9번", "type":"TF", "A":"T", "B":"F"},
+            10 : {"title" : "문제 10번", "type":"JP", "A":"J", "B":"P"},
+            11 : {"title" : "문제 11번", "type":"JP", "A":"J", "B":"P"},
+            12 : {"title" : "문제 12번", "type":"JP", "A":"J", "B":"P"}
+        }
+        
+        var result = {
+            "ENTJ" : { "animal" : "호랑이", "explain" : "호랑이 설명", "img" : "https://cdn.pixabay.com/photo/2017/11/06/09/53/tiger-2923186_1280.jpg"},
+            "ISTJ": {"animal": "하마", "explain": "하마 설명", "img": "https://cdn.pixabay.com/photo/2019/09/18/10/39/hippo-4486152_1280.jpg"},
+            "ISFJ": {"animal": "부엉이", "explain": "부엉이 설명", "img": "https://cdn.pixabay.com/photo/2018/07/09/19/07/eastern-screech-owl-3526934_1280.jpg"},
+            "INFJ": {"animal": "물소", "explain": "물소 설명", "img": "https://cdn.pixabay.com/photo/2022/06/22/10/46/buffalo-7277662_1280.jpg"},
+            "INTJ": {"animal": "치타", "explain": "치타 설명", "img": "https://cdn.pixabay.com/photo/2018/10/15/14/58/cheetah-3749168_1280.jpg"},
+            "ISTP": {"animal": "나무늘보", "explain": "나무늘보 설명", "img": "https://cdn.pixabay.com/photo/2019/04/29/23/25/sloth-4167380_1280.jpg"},
+            "ISFP": {"animal": "거북이", "explain": "거북이 설명", "img": "https://cdn.pixabay.com/photo/2016/04/10/13/36/leopard-tortoise-1319899_1280.jpg"},
+            "INFP": {"animal": "코끼리", "explain": "코끼리 설명", "img": "https://cdn.pixabay.com/photo/2013/05/29/22/25/elephant-114543_1280.jpg"},
+            "INTP": {"animal": "침팬지", "explain": "침팬지 설명", "img": "https://cdn.pixabay.com/photo/2018/09/25/21/32/monkey-3703230_1280.jpg"},
+            "ESTP": {"animal": "악어", "explain": "악어 설명", "img": "https://cdn.pixabay.com/photo/2014/01/14/18/31/nile-crocodile-245013_1280.jpg"},
+            "ESFP": {"animal": "미어캣", "explain": "미어캣 설명", "img": "https://cdn.pixabay.com/photo/2022/06/04/10/30/meerkat-7241664_1280.jpg"},
+            "ENFP": {"animal": "멋쟁이 사자", "explain": "멋쟁이 사자 설명", "img": "https://cdn.pixabay.com/photo/2018/07/31/22/08/lion-3576045_1280.jpg"},
+            "ENTP": {"animal": "태양새", "explain": "태양새 설명", "img": "https://cdn.pixabay.com/photo/2018/07/19/08/45/southern-double-collared-sunbird-3548094_1280.jpg"},
+            "ESTJ": {"animal": "기린", "explain": "기린 설명", "img": "https://cdn.pixabay.com/photo/2019/07/02/10/25/giraffe-4312090_1280.jpg"},
+            "ESFJ": {"animal": "고릴라", "explain": "고릴라 설명", "img": "https://cdn.pixabay.com/photo/2018/08/14/22/00/monkey-3606721_1280.jpg"},
+            "ENFJ": {"animal": "카피바라", "explain": "카피바라 설명", "img": "https://cdn.pixabay.com/photo/2018/07/23/12/22/capybara-3556770_1280.jpg"}
+        }
+
+        function start() {
+            $(".start").hide();
+            next();
+            $(".question").show();
+        }
+
+        $("#A").click( function() {
+            var type = $("#type").val();
+            var preValue = $("#" + type).val();
+            $('#' + type).val(parseInt(preValue)+1);
+            // console.log(parseInt(preValue)+1);
+            next();
+        });
+
+        $("#B").click( function() {
+            next();
+        });
+
+        function next() {
+            if ( num < 12 ) {
+                $(".progressbar").attr("style", "width: calc(100/12*" +num+ "%)");
+                $("#title").html(q[num]["title"]);
+                $("#type").val(q[num]["type"]);
+                $("#A").html(q[num]["A"]);
+                $("#B").html(q[num]["B"]);
+                num++;
+
+            } else {
+                $(".question").hide();
+                $(".result").show();
+
+                // mbti 결정 
+                var mbti = "";
+                /*
+                if ( $("#EI").val() < 2 ) {
+                    mbti += "I";
+                } else {
+                    mbti += "E";
+                }
+                */
+               // 삼항 연산자 이용하여 간단하게 ! 
+               ( $("#EI").val() < 2 ) ? mbti += "I" : mbti += "E";
+               ( $("#SN").val() < 2 ) ? mbti += "N" : mbti += "S";
+               ( $("#TF").val() < 2 ) ? mbti += "F" : mbti += "T";
+               ( $("#JP").val() < 2 ) ? mbti += "P" : mbti += "J";
+               // alert(mbti);
+
+               $("#img").attr("src", result[mbti].img);
+               $("#animal").html(result[mbti].animal);
+               $("#explain").html(result[mbti].explain);
+            }
+        }
+    </script>
+
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-62c1161fb4818c49"></script>
+
+</body>
+</html>
